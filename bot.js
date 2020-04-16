@@ -1,15 +1,16 @@
-const Discord = require('discord.js');
-const client = new Discord.Client();
-
-client.on('ready', () => {
-    console.log('I am ready!');
+const discord = require("discord.js");
+const token = require("./token.json").token;
+const bot = new discord.Client({
+  disableEveryone: true
 });
+const lib = require("./lib/functions");
 
-client.on('message', message => {
-    if (message.content === 'ping') {
-    	message.reply('pong');
-  	}
-});
+bot.commands = new discord.Collection();
+bot.aliases = new discord.Collection();
+bot.afk = new Map();
 
-// THIS  MUST  BE  THIS  WAY
-client.login(process.env.BOT_TOKEN);
+lib.setup(bot);
+
+module.exports.bot = bot;
+
+bot.login(token);
